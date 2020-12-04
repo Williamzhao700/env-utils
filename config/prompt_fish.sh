@@ -1,15 +1,4 @@
-alias vi="vim" 
-export EDITOR=vim
-
-alias ls="ls --color=auto"
-alias ll="ls -al --color=auto"
-
-# List all processes.
-alias pa='sudo ps aux'
-
-# List all listening ports.
-alias lp='sudo netstat -46lnp'
-
+# prompt customization
 function _fish_collapsed_pwd() {
     local pwd="$1"
     local home="$HOME"
@@ -28,7 +17,7 @@ function _fish_collapsed_pwd() {
         local IFS="/"
         local elements=($pwd)
         local length=${#elements[@]}
-        for ((i=0;i<length-2;i++)); do
+        for ((i=0;i<length-3;i++)); do
             local elem=${elements[$i]}
             if [[ ${#elem} -gt 1 ]]; then
                 elements[$i]=${elem:0:1}
@@ -37,12 +26,14 @@ function _fish_collapsed_pwd() {
     else
         local elements=("${(s:/:)pwd}")
         local length=${#elements}
-        for i in {1..$((length-2))}; do
-            local elem=${elements[$i]}
-            if [[ ${#elem} > 1 ]]; then
-                elements[$i]=${elem[1]}
-            fi
-        done
+	if [[ ${length} > 3 ]]; then
+            for i in {1..$((length-3))}; do
+                local elem=${elements[$i]}
+                if [[ ${#elem} > 1 ]]; then
+                    elements[$i]=${elem[1]}
+		fi
+            done
+	fi
     fi
     local IFS="/"
     echo "${elements[*]}"
